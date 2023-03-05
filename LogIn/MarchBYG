@@ -1,0 +1,81 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class LoginModule extends JFrame implements ActionListener {
+    private JLabel usernameLabel, passwordLabel;
+    private JTextField usernameField, passwordField;
+    private JButton loginButton;
+
+    public LoginModule() {
+        super("Login");
+
+        // Set up the GUI components
+        usernameLabel = new JLabel("Username:");
+        usernameLabel.setBounds(45, 119, 178, 14);
+        passwordLabel = new JLabel("Password:");
+        passwordLabel.setBounds(45, 154, 122, 63);
+        usernameField = new JTextField(20);
+        usernameField.setBounds(164, 113, 239, 26);
+        passwordField = new JPasswordField(20);
+        passwordField.setBounds(293, 144, 293, 143);
+        loginButton = new JButton("Login");
+        loginButton.setBounds(0, 287, 293, 143);
+
+        // Add the components to the frame
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+        panel.add(usernameLabel);
+        panel.add(usernameField);
+        panel.add(passwordLabel);
+        panel.add(passwordField);
+        panel.add(loginButton);
+        getContentPane().add(panel);
+
+        // Set up the button to listen for clicks
+        loginButton.addActionListener(this);
+
+        // Set the size and visibility of the frame
+        setSize(602, 470);
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    // Handle button clicks
+    public void actionPerformed(ActionEvent e) {
+        // Get the username and password from the text fields
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+        // Check if the username and password match the predefined users
+        if (username.equals("Admin") && password.equals("password1") ||
+            username.equals("Secretary") && password.equals("password2")) {
+            // If the user is authorized, show the welcome frame
+            new WelcomeFrame(username);
+            dispose(); // Close the login frame
+        } else {
+            // If the user is not authorized, show an error message
+            JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public static void main(String[] args) {
+        new LoginModule();
+    }
+}
+
+class WelcomeFrame extends JFrame {
+    public WelcomeFrame(String username) {
+        super("Welcome " + username);
+
+        // Set up the welcome message
+        JLabel label = new JLabel("Welcome " + username + "!");
+        label.setHorizontalAlignment(JLabel.CENTER);
+        add(label);
+
+        // Set the size and visibility of the frame
+        setSize(300, 150);
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+}
